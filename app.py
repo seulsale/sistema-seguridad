@@ -26,6 +26,8 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+    if session.get('logged_in'):
+        return redirect(url_for('home'))
     if request.method == 'POST':
         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
             error = 'Usuario y contraseña inválidos'
