@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de seguridad</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="static/favicon.ico" type="image/x-icon" />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="d-flex align-items-center" style="height: 100vh !important;">
+    <form class="form-signin text-center" method="POST">
+      <img class="mb-4" src="/static/lock.png" alt="" width="72" height="72" />
+      <h1 class="h3 mb-3 font-weight-normal">Sistema de Seguridad</h1>
+      {% for message in get_flashed_messages() %}
+      <p class="text-info">{{ message }}</p>
+      {% endfor %}
+      <label for="inputEmail" class="sr-only">Correo</label>
+      <input
+        type="text"
+        id="inputEmail"
+        class="form-control"
+        placeholder="Correo"
+        name="username"
+        value="{{ request.form.username }}"
+        required=""
+        autofocus=""
+      />
+      <label for="inputPassword" class="sr-only">Contraseña</label>
+      <input
+        type="password"
+        id="inputPassword"
+        class="form-control"
+        placeholder="Contraseña"
+        name="password"
+        value="{{ request.form.password }}"
+        required=""
+      />
+      <button class="btn btn-lg btn-primary my-3 btn-block" type="submit">
+        Iniciar sesión
+      </button>
+      {% if error %}
+      <span class="text-danger">{{ error }}</span>
+      {% endif %}
+      <p class="mt-3 text-muted">
+        © Equipo 3
+      </p>
+      <p class="text-muted">Ramón Melchor Villegas | Sergio Saucedo Leyva</p>
+    </form>
+  </body>
+  <style>
+    .form-signin {
+      width: 100%;
+      max-width: 380px;
+      padding: 15px;
+      margin: 0 auto;
+    }
+  </style>
+</html>
