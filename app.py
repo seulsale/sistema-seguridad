@@ -36,9 +36,13 @@ def login():
             return redirect(url_for('home'))
     return render_template('login.html', error=error)
 
+@app.route('/stats')
+def stats():
+    return render_template('stats.html')
+    
 @app.route('/api/motion')
 def sensors():
-    res = requests.get('http://10.0.0.3:8080/sensors.json?sense=motion_active')
+    res = requests.get('http://192.168.0.6:8080/sensors.json?sense=motion_active')
     res = res.json()
     if len(res['motion_active']['data']) > 1:
         print('MOVIMIENTO')
@@ -46,6 +50,8 @@ def sensors():
             'params': 'on'
         })
     return res
+
+
 
 @app.route('/logout')
 def logout():
