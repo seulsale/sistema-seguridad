@@ -2,11 +2,15 @@ from flask import Flask, render_template, redirect, url_for, request, session, f
 from functools import wraps
 import requests
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 app.secret_key = '93jfaljef9ñ{a'
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+DEVICE_ID='34002a000f47363336383437'
 DEVICE_ACCESS_TOKEN = 'a53bb6163a6680eebfcc6c8aec76d011bec713c6'
+CAMERA_IP=os.environ['CAMERA_IP']
+print(CAMERA_IP)
 
 def login_required(f):
     @wraps(f)
@@ -21,7 +25,10 @@ def login_required(f):
 @app.route('/')
 @login_required
 def home():
-    return render_template('index.html')
+    content = {
+        'camera_ip': CAMERA_IP
+    }
+    return render_template('index.html', content=content)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -42,11 +49,11 @@ def stats():
     
 @app.route('/api/motion')
 def sensors():
-    res = requests.get('http://192.168.0.6:8080/sensors.json?sense=motion_active')
+    res = requests.get(f'{CAMERA_IP}/sensors.json?sense=motion_active')
     res = res.json()
     if len(res['motion_active']['data']) > 1:
         print('MOVIMIENTO')
-        requests.post(f'https://api.particle.io/v1/devices/34002a000f47363336383437/trigger?access_token={DEVICE_ACCESS_TOKEN}', {
+        requests.post(f'https://api.particle.io/v1/devices/{DEVICE_ID}/trigger?access_token={DEVICE_ACCESS_TOKEN}', {
             'params': 'on'
         })
     return res
