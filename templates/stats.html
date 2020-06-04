@@ -8,4 +8,49 @@ content %}
     src="https://industrial.ubidots.com/app/dashboards/public/widget/LXMYm_KBB8EYfZlxuD3q_QYlwxU?embed=true"
   ></iframe>
 </div>
+<div class="row">
+  <p class="my-2">Nivel de batería</p>
+  <div class="progress w-100">
+    <div
+      id="battery-progress"
+      class="progress-bar"
+      role="progressbar"
+      style="width: 0%;"
+    >
+      0%
+    </div>
+  </div>
+  <p class="my-2">Temperatura</p>
+  <div class="progress w-100">
+    <div
+      id="battery-temperature"
+      class="progress-bar bg-warning"
+      role="progressbar"
+      style="width: 0%;"
+    >
+      0%
+    </div>
+  </div>
+</div>
+<script>
+  setInterval(async () => {
+    let req = await fetch(
+      "{{ content.camera_ip }}/sensors.json?sense=battery_level"
+    );
+    let res = await req.json();
+    let progress = document.getElementById("battery-progress");
+    progress.style.width = `${res.battery_level.data[0][1]}%`;
+    progress.innerText = `${res.battery_level.data[0][1]}%`;
+  }, 1000);
+
+  setInterval(async () => {
+    let req = await fetch(
+      "{{ content.camera_ip }}/sensors.json?sense=battery_temp"
+    );
+    let res = await req.json();
+    let progress = document.getElementById("battery-temperature");
+    progress.style.width = `${res.battery_temp.data[0][1]}%`;
+    progress.innerText = `${res.battery_temp.data[0][1]}°C`;
+  }, 1000);
+</script>
 {% endblock %}

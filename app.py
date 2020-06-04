@@ -10,7 +10,6 @@ cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 DEVICE_ID='34002a000f47363336383437'
 DEVICE_ACCESS_TOKEN = 'a53bb6163a6680eebfcc6c8aec76d011bec713c6'
 CAMERA_IP=os.environ['CAMERA_IP']
-print(CAMERA_IP)
 
 def login_required(f):
     @wraps(f)
@@ -45,7 +44,10 @@ def login():
 
 @app.route('/stats')
 def stats():
-    return render_template('stats.html')
+    content = {
+        'camera_ip': CAMERA_IP
+    }
+    return render_template('stats.html', content=content)
     
 @app.route('/api/motion')
 def sensors():
