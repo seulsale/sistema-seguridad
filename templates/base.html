@@ -44,8 +44,16 @@
             height="40px"
           />
           <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="/">Inicio</a>
-            <a class="nav-link" href="/stats">Estadísticas</a>
+            <a
+              class="nav-link {% if content.section == 'index' %}active{% endif %}"
+              href="/"
+              >Inicio</a
+            >
+            <a
+              class="nav-link {% if content.section == 'stats' %}active{% endif %}"
+              href="/stats"
+              >Estadísticas</a
+            >
             <a class="nav-link" href="/logout">Cerrar sesión</a>
           </nav>
         </div>

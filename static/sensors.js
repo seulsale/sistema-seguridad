@@ -41,7 +41,7 @@ setInterval(async () => {
 
 async function moveCamera(degrees) {
   const url =
-    "https://api.particle.io/v1/devices/34002a000f47363336383437/feed?access_token=a53bb6163a6680eebfcc6c8aec76d011bec713c6";
+    "https://api.particle.io/v1/devices/34002a000f47363336383437/direccion?access_token=a53bb6163a6680eebfcc6c8aec76d011bec713c6";
   const data = {
     params: degrees,
   };

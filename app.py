@@ -25,7 +25,8 @@ def login_required(f):
 @login_required
 def home():
     content = {
-        'camera_ip': CAMERA_IP
+        'camera_ip': CAMERA_IP,
+        'section': 'index'
     }
     return render_template('index.html', content=content)
 
@@ -45,7 +46,8 @@ def login():
 @app.route('/stats')
 def stats():
     content = {
-        'camera_ip': CAMERA_IP
+        'camera_ip': CAMERA_IP,
+        'section': 'stats'
     }
     return render_template('stats.html', content=content)
     
