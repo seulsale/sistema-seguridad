@@ -1,76 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema de seguridad</title>
-    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
-
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-      crossorigin="anonymous"
-    ></script>
-
-    <script src="/static/sensors.js"></script>
-    <link rel="stylesheet" href="static/cover.css" />
-  </head>
-  <body class="text-center">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner row justify-content-between">
-          <img
-            src="/static/lock.png"
-            alt="logo-sistema-seguridad"
-            width="40px"
-            height="40px"
-          />
-          <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link" href="/">Inicio</a>
-            <a class="nav-link active" href="/stats">Estadísticas</a>
-            <a class="nav-link" href="/logout">Cerrar sesión</a>
-          </nav>
-        </div>
-      </header>
-
-      <main role="main" class="inner cover">
-        <div class="d-flex justify-content-center">
-          <iframe
-            width="100%"
-            height="500"
-            frameborder="0"
-            src="https://industrial.ubidots.com/app/dashboards/public/widget/goC632Z42d4Jwqt4Z4E8jWSMtf8?embed=true"
-          ></iframe>
-        </div>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>
-            Proyecto de
-            <a href="/">Sistema de seguridad</a>, desarrollado por
-            <a href="#Equipo3">Equipo 3</a>.
-          </p>
-        </div>
-      </footer>
+{% extends 'base.html' %} {% block title %}Estadísticas{% endblock %} {% block
+content %}
+<div class="d-flex justify-content-center">
+  <iframe
+    width="100%"
+    height="500"
+    frameborder="0"
+    src="https://industrial.ubidots.com/app/dashboards/public/widget/LXMYm_KBB8EYfZlxuD3q_QYlwxU?embed=true"
+  ></iframe>
+</div>
+<div class="row">
+  <p class="my-2">Nivel de batería</p>
+  <div class="progress w-100">
+    <div
+      id="battery-progress"
+      class="progress-bar"
+      role="progressbar"
+      style="width: 0%;"
+    >
+      0%
     </div>
-  </body>
-</html>
+  </div>
+  <p class="my-2">Temperatura</p>
+  <div class="progress w-100">
+    <div
+      id="battery-temperature"
+      class="progress-bar bg-warning"
+      role="progressbar"
+      style="width: 0%;"
+    >
+      0%
+    </div>
+  </div>
+</div>
+<script>
+  setInterval(async () => {
+    let req = await fetch(
+      "{{ content.camera_ip }}/sensors.json?sense=battery_level"
+    );
+    let res = await req.json();
+    let progress = document.getElementById("battery-progress");
+    progress.style.width = `${res.battery_level.data[0][1]}%`;
+    progress.innerText = `${res.battery_level.data[0][1]}%`;
+  }, 1000);
+
+  setInterval(async () => {
+    let req = await fetch(
+      "{{ content.camera_ip }}/sensors.json?sense=battery_temp"
+    );
+    let res = await req.json();
+    let progress = document.getElementById("battery-temperature");
+    progress.style.width = `${res.battery_temp.data[0][1]}%`;
+    progress.innerText = `${res.battery_temp.data[0][1]}°C`;
+  }, 1000);
+</script>
+{% endblock %}
