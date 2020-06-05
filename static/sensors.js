@@ -37,7 +37,7 @@ setInterval(async () => {
       $(".toast").toast("show");
     });
   }
-}, 3000);
+}, 500);
 
 async function moveCamera(degrees) {
   const url =

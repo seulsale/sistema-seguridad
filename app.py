@@ -44,6 +44,7 @@ def login():
     return render_template('login.html', error=error)
 
 @app.route('/stats')
+@login_required
 def stats():
     content = {
         'camera_ip': CAMERA_IP,
